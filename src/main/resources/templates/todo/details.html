@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/detail.css}" >
+  <title>TODO details</title>
+</head>
+<body>
+  <form method="post" th:action="@{/todo/update}" th:object="${todoForm}">
+    <div th:object="${task}">
+      <div >
+        <input type="submit" class="btn btn_back" value="←"/>
+      </div>
+      <table>
+        <tr>
+          <td>名前</td>
+                                       <!-- Entity                 Form -->
+          <td><input type="text" name="todoTitle" th:value="*{todoTitle}"></td>
+        </tr>
+        <tr>
+          <td>日付</td>
+          <td><input type="text" name="todoDate" th:value="*{todoDate}"></td>
+        </tr>
+        <tr>
+          <td>時間</td>
+          <td><input type="text" name="todoTime" th:value="*{todoTime}"></td>
+        </tr>
+        <tr>
+          <td>場所</td>
+          <td><input type="text" name="todoPlace" th:value="*{todoPlace}"></td>
+        </tr>
+        <tr>
+          <td><input type="hidden" name="deleteFlag" th:value="*{deleteFlag}"></td>
+        </tr>
+        <tr>
+          <td>
+            <input type="submit" class="btn btn_edit" value="更新"/>
+            <input type="hidden" name="todoId" th:value="*{todoId}">
+          </td>
+       
+    </div>
+  </form>
+    <td>
+      <form method="post" th:action="@{/todo/delete}" th:object="${todoForm}" >
+        <input type="hidden" name="todoId" th:value="*{todoId}" />
+        <input type="submit" class="btn btn_del" value="削除">
+      </form>
+    </td>
+    <td>
+      <form method="post" th:action="@{/todo/complete}" th:object="${todoForm}">
+        <input type="hidden" name="todoId" th:value="*{todoId}" />
+        <input type="submit" class="btn btn_com" value="完了">
+      </form>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

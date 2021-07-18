@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" th:href="@{/list.css}" >
+  <link rel="stylesheet" href="list.css" >
+  <title>TODO list</title>
+</head>
+
+<body>
+  <p class="mainTitle">TODO LIST</p>
+  <form method="post" th:action="@{/todo/create}" th:object="${todoForm}">
+    <label for="todoTitle">
+      タイトル:
+      <input type="text" name="todoTitle" th:value="*{todoTitle}">
+    </label>
+    <label for="todoDate">
+      日付:
+      <input type="text" name="todoDate" th:value="*{todoDate}">
+    </label>
+    <label for="todoTime">
+      時間:
+      <input type="text" name="todoTime" th:value="*{todoTime}"/>
+    </label>
+    <label for="todoPlace">
+      場所:
+      <input type="text" name="todoPlace" th:value="*{todoPlace}">
+    </label>
+    <input type="submit" class="btn_new" value="新規作成">
+  </form>
+
+    <!-- th:each属性の基本形は,th:each="変数名 : コレクション"
+    コレクション内の要素が変数（繰り返し用変数）に入り、「${変数名}」や「${変数名.プロパティー名}」で使用できる。 -->
+  
+      <!-- 条件式1 ? (条件式2 ? "A" : "B") : "C"; -->
+      <!-- <tbody th:classappend="|{*{completeFlag}==true} ? {*{deleteFlag}==true} ? delete : complete : non-complete|"> -->  
+  <table th:each="task: ${taskList}" th:object="${task}">    
+    <th:block  th:if="!*{deleteFlag}">
+      <tbody th:classappend="*{completeFlag} ? complete : non_complete">
+          <td>名前:</td>
+          <td th:text="*{todoTitle}"></td>
+          <td>日付:</td>
+          <td th:text="*{todoDate}"></td>
+          <td>時間:</td>
+          <td th:text="*{todoTime}"></td>
+          <td>場所:</td>
+          <td th:text="*{todoPlace}"></td>
+          <td>
+            <form method="get" th:action="@{/todo/details}" >
+              <!-- idを元に他のデータ達をさがす -->
+              <input type="hidden" name="todoId" th:value="*{todoId}"/>
+              <input type="submit" class="btn btn_edit btn-square-emboss" value="編集"/>
+            </form>
+          </td>
+          <td>
+            <form method="post" th:action="@{/todo/delete}" >
+              <input type="hidden" name="todoId" th:value="*{todoId}" />
+              <input type="submit" class="btn btn_del" value="削除">
+            </form>
+          </td>
+          <td>
+              <form method="post" th:action="@{/todo/complete}">
+                  <input type="hidden" name="todoId" th:value="*{todoId}" />
+                  <input type="submit" class="btn btn_com" value="完了">
+                  <input type="checkbox" name="completeFlag" th:value="*{completeFlag}" value="true"/>
+                  <input type="hidden" name="_completeFlag" value="on">
+              </form>
+          </td>
+      </tbody>     
+    </th:block>
+  </table>
+</body>
+</html>
